@@ -1,0 +1,92 @@
+Concept:
+
+    We will use simple BFS
+    we will store the entries of every level in the desired fashion
+    for every level store the nodes into the queue, if direction is left to right print it that way,else reversed.
+    I have taken a variable val1=0 , value 0 means left to right and 1 means right to left
+
+example:
+
+tree: [[3].[4,5]]
+queue q;
+root=3
+push 3 into queue
+while q is not empty, size of queue=1;
+for loop till size of queue, pop the front element of queue
+pop 3,put in vector v1
+now insert left and right children in queue i.e now queue becomes [4,5] //3 is popped
+check the direction,and insert element likewise;
+initially dirn is 0 i.e left to right ,v[i]=popped element val
+now ans=[[3]]
+direction is reversed.
+
+now q=[4,5]
+size=2
+till size run a loop,
+pop 4 , direction is 1 , v[i-size-1]=popped elem
+pop 5, put in vector
+now v=[5,4] //reversed elements
+push it into ans
+
+final ans=[[3],[4,5]]
+
+code
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        vector< vector<int> > ans;  //to store final ans
+           if(root==NULL)
+        {
+            return ans;
+        }
+        int val1=0 ;  //if val is false then left to right else right to left
+        queue<TreeNode*> q;  //queue
+     
+        q.push(root);  //pushing root element initially
+        //applying bfs
+        while(q.empty()!=true)  //for every level q is filled with elements
+        {
+            int l=q.size();   //size of queue
+            vector<int> v1(l);  //vector to store val of every level
+            for(int i=0;i<l;i++)    //traversing the size of queue
+            {
+                TreeNode* opt=q.front();   //take the first elem
+                q.pop();   //pop it out
+                if(opt->left)   //push left elem
+                {
+                    q.push(opt->left);
+                }
+                if(opt->right)  //push right elem
+                {
+                    q.push(opt->right);
+                }
+                if(val1==0)   //left to right
+                {
+                    v1[i]=opt->val;
+                }
+                else{        //right to left
+                    v1[l-i-1]=opt->val;   //pushed in reverse order
+                }
+                
+            }
+            val1=!val1;   //reverese the direction
+            ans.push_back(v1);   //push the level vector
+           
+            
+        }
+        return ans;
+        
+    }
+};
