@@ -46,10 +46,11 @@ class Solution {
     /* if interval completely lies inside another then we dont want to take it,
     e.g. 3,6 lies completely inside 2,8
     i.e start time need to be smaller
-    end time need to be greater
+    end time need to be greater,if start time is equal
     */
 public:
    bool static sorter(vector<int>& v1, vector<int>& v2){
+   // sorting in increasing order of start time
         if(v1[0] == v2[0]) return v1[1] > v2[1];   // end time (greater to lower)
         return v1[0] < v2[0];                         // start time(lower to greater)
     }    
